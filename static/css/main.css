@@ -397,6 +397,14 @@ ul {
     margin: 0 10px 0 0;
 }
 
+.post .description p:first-child {
+    margin-top: 0;
+}
+
+.post .description p:last-child {
+    margin-bottom: 0;
+}
+
 .list .posts .post-header .meta {
     margin-bottom: 0;
     margin-left: 5px;
