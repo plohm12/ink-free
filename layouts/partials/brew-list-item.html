@@ -1,0 +1,44 @@
+<div class="post">
+  <div class="post-header">
+    <div class="meta">
+      <div class="date">
+        <span class="day">{{ .Params.id }}</span>
+        <span class="rest">{{ if $.Site.Data.month }}{{ index $.Site.Data.month (printf "%d" .Date.Month) }} {{ .Date.Year }}{{ else }}{{ dateFormat "2 Jan 2006" .Date }}{{ end }}</span>
+      </div>
+    </div>
+    <div class="matter">
+      <h4 class="title small">
+        {{/*  <a href="{{ .RelPermalink }}">{{.Title}}{{ if .Draft }}<sup class="draft-label">DRAFT</sup>{{ end }}</a>  */}}
+        {{.Title}}{{ if .Draft }}<sup class="draft-label">DRAFT</sup>{{ end }}
+      </h4>
+      {{/*  <h4 class="title small smaller">
+        {{ .WordCount  | lang.FormatNumberCustom 0 }} words, ~{{ div .WordCount .Site.Params.wpm }} min read 
+      </h4>  */}}
+      <h4 class="title small smaller">
+        {{ if gt .Params.tags 0 }}
+          <ul class="tags flat">
+            {{ range first .Site.Params.maxTags .Params.tags }}
+            <li class="tag-li"><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
+            {{ end }}
+        </ul>
+        {{ end }}
+      </h4>
+      <span class="subtitle small">
+        {{- with .Params.style }}{{ . }}{{ end }}
+        {{- with .Params.abv }} // {{ . }}% ABV{{ end }}
+        {{- with .Params.ibu }} // {{ . }} IBU{{ end }}
+      </span>
+      <br />
+      
+      <span class="description">
+        {{ if isset .Params "description" }}
+          {{ .Description }}
+        {{ else if gt (len .Content) 120 }}
+          {{ slicestr .Content 0 120 }}...
+        {{ else }}
+          {{ .Content }}
+        {{ end }}
+      </span>
+    </div>
+  </div>
+</div>

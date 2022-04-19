@@ -34,6 +34,27 @@
 				{{ .Content }}
 			</div>
 
+			{{ with .Params.recipeId -}}
+				<div class="brewers-friend">
+					<iframe width="100%" height="500px" src="https://www.brewersfriend.com/homebrew/recipe/embed/{{.}}" frameborder="0"></iframe>
+				</div>
+			{{ else }}
+				<div class="offline-stats">
+					{{ with .Params.style }}Style: {{ . }} <br/>{{ end }}
+					{{ with .Params.status }}
+						{{/*  Consider using a status badge?  */}}
+						Current status:
+						{{- if (eq . "ferment") }} Fermenting
+						{{- else if (eq . "conditioning") }} Aging
+						{{- else if (eq . "ready") }} Ready
+						{{- else if (eq . "archive") }} Archived
+						{{- end }}<br/>
+					{{- end }}
+					{{ with .Params.abv }}ABV: {{ . }}% <br/>{{ end }}
+					{{ with .Params.ibu }}IBU: {{ . }} <br/>{{ end }}
+				</div>
+			{{- end }}
+
 			<div class="tags">
 				{{ if ne .Type "page" }}
 					{{ if gt .Params.tags 0 }}
@@ -51,10 +72,11 @@
 				<a href="{{ .Site.Params.github }}/blob/master/content/{{ .File.Path }}" title="github"><i data-feather="github"></i> Edit this on GitHub</a>
 			</div>
 			{{ end }}
-			
-			<div class="back">
+		
+			{{/*  This isn't an actual back button so it's misleading  */}}
+			{{/*  <div class="back">
 				<a href="{{ $.Site.BaseURL }}"><span aria-hidden="true">← Back</span></a>
-			</div>
+			</div>  */}}
 			
 
 			<div class="back">
@@ -65,7 +87,7 @@
 				{{ end }}
 			</div>
 
-			{{- if .Site.DisqusShortname -}}
+			{{/*  {{- if .Site.DisqusShortname -}}
 			{{- $.Scratch.Set "isDisqus" true -}}
 
 			{{- if and (isset .Params "type") (in .Site.Params.disableDisqusTypes .Params.type) -}}
@@ -81,7 +103,7 @@
 			{{- if eq ($.Scratch.Get "isDisqus") true -}}
 			{{- partial "disqus.html" . -}}
 			{{- end -}}
-			{{- end -}}
+			{{- end -}}  */}}
 		</div>
 		
 	</div>
