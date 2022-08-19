@@ -32,7 +32,7 @@
       
       <span class="description">
         {{ if isset .Params "description" }}
-          {{ .Description }}
+          {{ .Description | safeHTML }}
         {{ else if gt (len .Content) 120 }}
           {{ slicestr .Content 0 120 }}...
         {{ else }}
