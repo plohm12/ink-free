@@ -1,11 +1,37 @@
 
 {{ define "main" }}
+{{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
 <div class="recent-posts section">
-	<div class="posts">
-		{{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+	<label for="show-ready-posts" class="expander">
+		<h1 class="recent-posts-heading">Current Offerings</h1>
+	</label>
+	<input id="show-ready-posts" type="checkbox" class="expander" checked />
+	<div class="posts expandable">
 		{{/*  {{ $paginator := .Paginate (where $pages "Params.hidden" "ne" true) }}
 		{{ range $paginator.Pages }}  */}}
-		{{ range sort (where $pages "Params.status" "ne" "archive") ".Params.id" "desc" }}
+		{{ range sort (where $pages "Params.status" "eq" "ready") ".Params.id" "desc" }}
+			{{ partial "brew-list-item" . }}
+		{{ end }}
+	</div>
+</div>
+<div class="recent-posts section">
+	<label for="show-ferment-posts" class="expander">
+		<h1 class="recent-posts-heading">Fermenting</h1>
+	</label>
+	<input id="show-ferment-posts" type="checkbox" class="expander" checked />
+	<div class="posts expandable">
+		{{ range sort (where $pages "Params.status" "eq" "ferment") ".Params.id" "desc" }}
+			{{ partial "brew-list-item" . }}
+		{{ end }}
+	</div>
+</div>
+<div class="recent-posts section">
+	<label for="show-conditioning-posts" class="expander">
+		<h1 class="recent-posts-heading">Conditioning</h1>
+	</label>
+	<input id="show-conditioning-posts" type="checkbox" class="expander" checked />
+	<div class="posts expandable">
+		{{ range sort (where $pages "Params.status" "eq" "conditioning") ".Params.id" "desc" }}
 			{{ partial "brew-list-item" . }}
 		{{ end }}
 	</div>
